@@ -1,6 +1,3 @@
-/**
- * powerups kunnen nog overal spawnen, mag enkel op vloer met niets op
- */
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     mySprite,
@@ -369,6 +366,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
 info.onScore(5, function () {
     game.over(true, effects.confetti)
 })
+/**
+ * powerups kunnen nog overal spawnen, mag enkel op vloer met niets op
+ */
 function plaats_vloer (col: number, row: number) {
     if (Math.percentChance(1)) {
         tiles.setTileAt(tiles.getTileLocation(col, row), assets.tile`myTile`)
