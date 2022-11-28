@@ -79,7 +79,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`stairSouth`, function (sprite
     create_level()
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
-    mySprite.sayText("aaaaaaaaaa", 500, true)
+    mySprite.sayText("aaaaa", 500, true)
     info.changeLifeBy(-5)
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
