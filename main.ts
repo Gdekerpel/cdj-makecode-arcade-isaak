@@ -82,6 +82,9 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, lo
     mySprite.sayText("aaaaa", 500, true)
     info.changeLifeBy(-5)
 })
+info.onScore(15, function () {
+    game.over(true, effects.confetti)
+})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     mySprite,
@@ -357,7 +360,7 @@ function create_level () {
         `, SpriteKind.Food)
     powerup_locatie = [randint(1, 8), randint(1, 6)]
     powerup.setPosition(tiles.getTileLocation(randint(1, 8), randint(1, 6)).x, tiles.getTileLocation(randint(1, 8), randint(1, 6)).y)
-    mySprite2 = sprites.create(img`
+    vijand = sprites.create(img`
         ........................
         ........................
         ........................
@@ -383,17 +386,17 @@ function create_level () {
         ........................
         ........................
         `, SpriteKind.Enemy)
-    mySprite2.follow(mySprite, 15)
     if (Math.percentChance(25)) {
-        tiles.placeOnRandomTile(mySprite2, sprites.dungeon.greenOuterWest1)
+        tiles.placeOnRandomTile(vijand, sprites.dungeon.greenOuterWest1)
     } else if (Math.percentChance(25)) {
-        tiles.placeOnRandomTile(mySprite2, sprites.dungeon.greenOuterEast0)
+        tiles.placeOnRandomTile(vijand, sprites.dungeon.greenOuterEast0)
     } else if (Math.percentChance(25)) {
-        tiles.placeOnRandomTile(mySprite2, sprites.dungeon.greenOuterNorth0)
+        tiles.placeOnRandomTile(vijand, sprites.dungeon.greenOuterNorth0)
     } else {
-        tiles.placeOnRandomTile(mySprite2, sprites.dungeon.greenOuterSouth0)
+        tiles.placeOnRandomTile(vijand, sprites.dungeon.greenOuterSouth0)
     }
     info.startCountdown(3)
+    vijand.follow(mySprite, 15)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     powerup.destroy(effects.spray, 100)
@@ -401,9 +404,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     info.changeLifeBy(10)
     info.changeCountdownBy(2)
     tiles.setTileAt(speler_tilemap_locatie(), sprites.dungeon.floorLight2)
-})
-info.onScore(5, function () {
-    game.over(true, effects.confetti)
 })
 function plaats_vloer (col: number, row: number) {
     if (Math.percentChance(1)) {
@@ -417,15 +417,13 @@ function plaats_vloer (col: number, row: number) {
         tiles.setWallAt(tiles.getTileLocation(col, row), false)
     }
 }
-/**
- * powerups kunnen nog overal spawnen, mag enkel op vloer met niets op
- */
+// powerups kunnen nog overal spawnen, mag enkel op vloer met niets op
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    mySprite2.destroy(effects.hearts, 100)
-    info.changeLifeBy(-100)
+    vijand.destroy(effects.hearts, 100)
+    info.changeLifeBy(-75)
     info.changeCountdownBy(1)
 })
-let mySprite2: Sprite = null
+let vijand: Sprite = null
 let powerup_locatie: number[] = []
 let trappen_locatie: number[] = []
 let row = 0
