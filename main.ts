@@ -571,6 +571,7 @@ mySprite = sprites.create(img`
     . . . f f f f f f f f . . . . . 
     . . . . . f f . . f f . . . . . 
     `, SpriteKind.Player)
+mySprite.setScale(0.95, ScaleAnchor.Middle)
 controller.moveSprite(mySprite)
 scene.cameraFollowSprite(mySprite)
 create_level()
