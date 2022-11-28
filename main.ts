@@ -159,6 +159,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 info.onCountdownEnd(function () {
+    game.splash("tijd is op!")
     game.over(false, effects.dissolve)
 })
 function speler_tilemap_locatie () {
@@ -317,11 +318,9 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 info.onLifeZero(function () {
+    game.splash("dood!")
     game.over(false, effects.dissolve)
 })
-/**
- * powerups kunnen nog overal spawnen, mag enkel op vloer met niets op
- */
 function create_level () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Food)
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
@@ -384,21 +383,23 @@ function create_level () {
         ........................
         ........................
         `, SpriteKind.Enemy)
-    tiles.placeOnRandomTile(mySprite2, sprites.dungeon.greenOuterWest1)
-    mySprite2.follow(mySprite)
-    animation.runMovementAnimation(
-    mySprite2,
-    animation.animationPresets(animation.flyToCenter),
-    2000,
-    false
-    )
+    mySprite2.follow(mySprite, 15)
+    if (Math.percentChance(25)) {
+        tiles.placeOnRandomTile(mySprite2, sprites.dungeon.greenOuterWest1)
+    } else if (Math.percentChance(25)) {
+        tiles.placeOnRandomTile(mySprite2, sprites.dungeon.greenOuterEast0)
+    } else if (Math.percentChance(25)) {
+        tiles.placeOnRandomTile(mySprite2, sprites.dungeon.greenOuterNorth0)
+    } else {
+        tiles.placeOnRandomTile(mySprite2, sprites.dungeon.greenOuterSouth0)
+    }
     info.startCountdown(3)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     powerup.destroy(effects.spray, 100)
     mySprite.sayText("nomnom", 500, true)
     info.changeLifeBy(10)
-    info.changeCountdownBy(1)
+    info.changeCountdownBy(2)
     tiles.setTileAt(speler_tilemap_locatie(), sprites.dungeon.floorLight2)
 })
 info.onScore(5, function () {
@@ -408,7 +409,7 @@ function plaats_vloer (col: number, row: number) {
     if (Math.percentChance(1)) {
         tiles.setTileAt(tiles.getTileLocation(col, row), assets.tile`myTile`)
         tiles.setWallAt(tiles.getTileLocation(col, row), false)
-    } else if (Math.percentChance(15)) {
+    } else if (Math.percentChance(10)) {
         tiles.setTileAt(tiles.getTileLocation(col, row), assets.tile`floorLight3`)
         tiles.setWallAt(tiles.getTileLocation(col, row), true)
     } else {
@@ -416,6 +417,14 @@ function plaats_vloer (col: number, row: number) {
         tiles.setWallAt(tiles.getTileLocation(col, row), false)
     }
 }
+/**
+ * powerups kunnen nog overal spawnen, mag enkel op vloer met niets op
+ */
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    mySprite2.destroy(effects.hearts, 100)
+    info.changeLifeBy(-100)
+    info.changeCountdownBy(1)
+})
 let mySprite2: Sprite = null
 let powerup_locatie: number[] = []
 let trappen_locatie: number[] = []
