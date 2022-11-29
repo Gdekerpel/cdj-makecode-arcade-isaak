@@ -79,7 +79,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`stairSouth`, function (sprite
     create_level()
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
-    mySprite.sayText("aaaaa", 500, true)
+    mySprite.sayText("auw", 200, true)
     info.changeLifeBy(-5)
 })
 info.onScore(15, function () {
@@ -358,8 +358,13 @@ function create_level () {
         . e e b b 4 4 4 4 4 4 4 4 e e . 
         . . . c c c c c e e e e e . . . 
         `, SpriteKind.Food)
-    powerup_locatie = [randint(1, 8), randint(1, 6)]
-    powerup.setPosition(tiles.getTileLocation(randint(1, 8), randint(1, 6)).x, tiles.getTileLocation(randint(1, 8), randint(1, 6)).y)
+    powerup_locatie_y = randint(1, 8)
+    powerup_locatie_x = randint(1, 6)
+    while (tiles.tileAtLocationIsWall(tiles.getTileLocation(powerup_locatie_y, powerup_locatie_x))) {
+        powerup_locatie_y = randint(1, 8)
+        powerup_locatie_x = randint(1, 6)
+    }
+    powerup.setPosition(tiles.getTileLocation(powerup_locatie_y, powerup_locatie_x).x, tiles.getTileLocation(powerup_locatie_y, powerup_locatie_x).y)
     vijand = sprites.create(img`
         ........................
         ........................
@@ -420,11 +425,12 @@ function plaats_vloer (col: number, row: number) {
 // powerups kunnen nog overal spawnen, mag enkel op vloer met niets op
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     vijand.destroy(effects.hearts, 100)
-    info.changeLifeBy(-75)
+    info.changeLifeBy(0)
     info.changeCountdownBy(1)
 })
 let vijand: Sprite = null
-let powerup_locatie: number[] = []
+let powerup_locatie_x = 0
+let powerup_locatie_y = 0
 let trappen_locatie: number[] = []
 let row = 0
 let col = 0
@@ -576,4 +582,6 @@ controller.moveSprite(mySprite)
 scene.cameraFollowSprite(mySprite)
 create_level()
 info.setLife(100)
-game.showLongText("neem trappen \\n lava doet pijn! \\n eet hamburgers voor leven en tijd", DialogLayout.Full)
+game.showLongText("neem trappen \\n lava doet pijn! \\nspoken nog meer!\\n eet hamburgers voor leven en tijd", DialogLayout.Full)
+game.showLongText("besturen met pijltjes", DialogLayout.Full)
+game.splash("klaar?")
