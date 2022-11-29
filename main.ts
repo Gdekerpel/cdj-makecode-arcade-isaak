@@ -360,7 +360,7 @@ function create_level () {
         `, SpriteKind.Food)
     powerup_locatie_y = randint(1, 8)
     powerup_locatie_x = randint(1, 6)
-    while (tiles.tileAtLocationIsWall(tiles.getTileLocation(powerup_locatie_y, powerup_locatie_x))) {
+    while (tiles.tileAtLocationIsWall(tiles.getTileLocation(powerup_locatie_y, powerup_locatie_x)) || tiles.tileAtLocationEquals(tiles.getTileLocation(0, 0), assets.tile`stairSouth`)) {
         powerup_locatie_y = randint(1, 8)
         powerup_locatie_x = randint(1, 6)
     }
@@ -425,7 +425,7 @@ function plaats_vloer (col: number, row: number) {
 // powerups kunnen nog overal spawnen, mag enkel op vloer met niets op
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     vijand.destroy(effects.hearts, 100)
-    info.changeLifeBy(0)
+    info.changeLifeBy(-75)
     info.changeCountdownBy(1)
 })
 let vijand: Sprite = null
