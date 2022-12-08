@@ -360,7 +360,7 @@ function create_level () {
         `, SpriteKind.Food)
     powerup_locatie_y = randint(1, 8)
     powerup_locatie_x = randint(1, 6)
-    while (tiles.tileAtLocationIsWall(tiles.getTileLocation(powerup_locatie_y, powerup_locatie_x)) || tiles.tileAtLocationEquals(tiles.getTileLocation(0, 0), assets.tile`stairSouth`)) {
+    while (tiles.tileAtLocationIsWall(tiles.getTileLocation(powerup_locatie_y, powerup_locatie_x)) || tiles.tileAtLocationEquals(tiles.getTileLocation(powerup_locatie_y, powerup_locatie_x), assets.tile`stairSouth`)) {
         powerup_locatie_y = randint(1, 8)
         powerup_locatie_x = randint(1, 6)
     }
