@@ -82,9 +82,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, lo
     mySprite.sayText("auw", 200, true)
     info.changeLifeBy(-5)
 })
-info.onScore(15, function () {
-    game.over(true, effects.confetti)
-})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     mySprite,
@@ -168,6 +165,10 @@ info.onCountdownEnd(function () {
 function speler_tilemap_locatie () {
     return powerup.tilemapLocation()
 }
+info.onScore(10, function () {
+    info.setScore(10 + info.life())
+    game.over(true, effects.confetti)
+})
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     mySprite,
@@ -582,6 +583,6 @@ controller.moveSprite(mySprite)
 scene.cameraFollowSprite(mySprite)
 create_level()
 info.setLife(100)
-game.showLongText("neem trappen \\n lava doet pijn! \\nspoken nog meer!\\n eet hamburgers voor leven en tijd", DialogLayout.Full)
+game.showLongText("neem 10 trappen \\n lava doet pijn! \\nspoken nog meer!\\n eet hamburgers voor leven en tijd", DialogLayout.Full)
 game.showLongText("besturen met pijltjes", DialogLayout.Full)
 game.splash("klaar?")
